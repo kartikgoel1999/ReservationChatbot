@@ -34,6 +34,12 @@ class LuisHelper {
                 // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
                 // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
                 bookingDetails.travelDate = LuisHelper.parseDatetimeEntity(recognizerResult);
+            } else if (intent === 'MeetndGreet') {
+                // console.log(recognizerResult);
+                // console.log(recognizerResult.luisResult.topScoringIntent.score);
+                // console.log('\n'+recognizerResult.luisResult.entities+'\n');
+                // console.log(recognizerResult.entities.PersonName[0]);
+                bookingDetails.personName = recognizerResult.entities.PersonName[0];
             }
         } catch (err) {
             logger.warn(`LUIS Exception: ${ err } Check your LUIS configuration`);

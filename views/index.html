@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>KTravels Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+      This CDN points to the latest official release of Web Chat. If you need to test against Web Chat's latest bits, please refer to pointing to Web Chat's MyGet feed:
+      https://github.com/microsoft/BotFramework-WebChat#how-to-test-with-web-chats-latest-bits
+    -->
+    <script type="text/javascript" src="https://unpkg.com/markdown-it/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0
+        }
+
+        #webchat {
+            height: 100%;
+            width: 100%;
+
+        }
+
+        .ac-textBlock {
+            white-space: normal !important;
+            font-size: medium !important;
+            font-weight: normal !important;
+            font-family: Arial, Helvetica, sans-serif !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="webchat" role="main"></div>
+    <script>
+        (async function () {
+            const styleOptions = {
+                // backgroundColor: '#7F7772',
+                // bubbleBackground: '#FEBD11',
+                // bubbleBorder: 'solid 1px #FEBD11',
+                // bubbleBorderRadius: 20,
+                // // bubbleFromUserBackground: 'white',
+                // bubbleFromUserBorder: 'solid 1px white',
+                // bubbleFromUserBorderRadius: 20,
+                // bubbleFromUserTextColor: 'black',
+                // bubbleTextColor: 'white'
+            };
+
+            window.WebChat.renderWebChat(
+                {
+                directLine: window.WebChat.createDirectLine({
+                    secret: 'oKlIvbXA-vE.tPGIA-9uftLojSEOPZ3CEAP3ElfcpUgDHgWNMHTFNUs'}),
+                styleOptions
+                }, 
+                document.getElementById('webchat')
+            );
+            document.querySelector('#webchat > *').focus();
+        })().catch(err => console.error(err));
+    </script>
+</body>
+
+</html>

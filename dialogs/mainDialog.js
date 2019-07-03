@@ -4,10 +4,12 @@
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { BookingDialog } = require('./bookingDialog');
+const { MeetAndGreetDialog } = require('./meetAndGreetDialog');
 const { LuisHelper } = require('./luisHelper');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 const BOOKING_DIALOG = 'bookingDialog';
+const MEETANDGREET_DIALOG = 'meetAndGreetDialog';
 
 class MainDialog extends ComponentDialog {
     constructor(logger) {
@@ -24,6 +26,7 @@ class MainDialog extends ComponentDialog {
         // This is a sample "book a flight" dialog.
         this.addDialog(new TextPrompt('TextPrompt'))
             .addDialog(new BookingDialog(BOOKING_DIALOG))
+            .addDialog(new MeetAndGreetDialog(MEETANDGREET_DIALOG))
             .addDialog(new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
                 this.introStep.bind(this),
                 this.actStep.bind(this),
@@ -77,14 +80,22 @@ class MainDialog extends ComponentDialog {
             // and will then pass those values into the booking dialog
             bookingDetails = await LuisHelper.executeLuisQuery(this.logger, stepContext.context);
 
-            this.logger.log('LUIS extracted these booking details:', bookingDetails);
+            this.logger.log('LUIS extracted these details:', bookingDetails);
         }
 
         // In this sample we only have a single intent we are concerned with. However, typically a scenario
         // will have multiple different intents each corresponding to starting a different child dialog.
-
+        if (bookingDetails.intent === 'MeetndGreet') {
+            console.log(bookingDetails);
+            console.log('In actStep');
+            return await stepContext.beginDialog('meetAndGreetDialog', bookingDetails);
+        }
         // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
-        return await stepContext.beginDialog('bookingDialog', bookingDetails);
+
+        else {
+            console.log(bookingDetails);
+            return await stepContext.beginDialog('bookingDialog', bookingDetails);
+        }
     }
 
     /**
@@ -100,9 +111,10 @@ class MainDialog extends ComponentDialog {
             // This is where calls to the booking AOU service or database would go.
 
             // If the call to the booking service was successful tell the user.
+            console.log('In finalStep');
             const timeProperty = new TimexProperty(result.travelDate);
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
-            const msg = `I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }.`;
+            const msg = `Thank you ${ result.personName } I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }.`;
             await stepContext.context.sendActivity(msg);
         } else {
             await stepContext.context.sendActivity('Thank you.');

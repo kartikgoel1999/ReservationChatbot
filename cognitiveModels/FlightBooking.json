@@ -7,6 +7,9 @@
   "tokenizerVersion": "1.0.0",
   "intents": [
     {
+      "name":"MeetndGreet"
+    },
+    {
       "name": "Book flight"
     },
     {
@@ -16,7 +19,12 @@
       "name": "None"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "name":"PersonName",
+      "roles":[]
+    }
+  ],
   "composites": [
     {
       "name": "From",
@@ -77,6 +85,101 @@
   "regex_features": [],
   "patterns": [],
   "utterances": [
+    {
+      "text": "hi my name is kartik" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "hello" ,
+      "intent": "MeetndGreet",
+      "entities": []
+    },
+    {
+      "text": "hi" ,
+      "intent": "MeetndGreet",
+      "entities": []
+    },
+    {
+      "text": "hey" ,
+      "intent": "MeetndGreet",
+      "entities": []
+    },
+    {
+      "text": "hi i am aviral" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "Arunim is my name" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "hi my name is avi!!!" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "my name is tom cruise" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "kate winslet is my name" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "i am ajay goel" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
+    {
+      "text": "arunim is my name" ,
+      "intent": "MeetndGreet",
+      "entities": [
+        {
+          "entity":"PersonName"
+        }
+      ]
+
+    },
     {
       "text": "book flight from london to paris on feb 14th",
       "intent": "Book flight",
