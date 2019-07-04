@@ -70,7 +70,7 @@ class MainDialog extends ComponentDialog {
         // return await stepContext.prompt('TextPrompt', { prompt: ' ' });
         const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
         await stepContext.context.sendActivity({ attachments: [welcomeCard] });
-        return await stepContext.next();
+        return await stepContext.prompt('TextPrompt', { prompt: '' });
     }
 
     /**
