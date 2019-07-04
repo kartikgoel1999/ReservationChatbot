@@ -64,7 +64,8 @@ class MainDialog extends ComponentDialog {
             return await stepContext.next();
         }
 
-        return await stepContext.prompt('TextPrompt', { prompt: 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"' });
+        return await stepContext.next();
+        // return await stepContext.prompt('TextPrompt', { prompt: ' ' });
     }
 
     /**
@@ -85,16 +86,12 @@ class MainDialog extends ComponentDialog {
 
         // In this sample we only have a single intent we are concerned with. However, typically a scenario
         // will have multiple different intents each corresponding to starting a different child dialog.
-        if (bookingDetails.intent === 'MeetndGreet') {
-            console.log(bookingDetails);
-            console.log('In actStep');
-            return await stepContext.beginDialog('meetAndGreetDialog', bookingDetails);
-        }
-        // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
-
-        else {
-            console.log(bookingDetails);
+        if (bookingDetails.intent === 'Book_flight') {
+            console.log(bookingDetails.intent);
             return await stepContext.beginDialog('bookingDialog', bookingDetails);
+        } else {
+            console.log(bookingDetails.intent);
+            return await stepContext.next();
         }
     }
 
@@ -111,7 +108,6 @@ class MainDialog extends ComponentDialog {
             // This is where calls to the booking AOU service or database would go.
 
             // If the call to the booking service was successful tell the user.
-            console.log('In finalStep');
             const timeProperty = new TimexProperty(result.travelDate);
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
             const msg = `Thank you ${ result.personName } I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }.`;

@@ -19,6 +19,7 @@ class BookingDialog extends CancelAndHelpDialog {
             .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
             .addDialog(new DateResolverDialog(DATE_RESOLVER_DIALOG))
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
+                this.personNameStep.bind(this),
                 this.destinationStep.bind(this),
                 this.originStep.bind(this),
                 this.travelDateStep.bind(this),
@@ -28,12 +29,22 @@ class BookingDialog extends CancelAndHelpDialog {
 
         this.initialDialogId = WATERFALL_DIALOG;
     }
+    async personNameStep(stepContext) {
+        const bookingDetails = stepContext.options;
+
+        if (!bookingDetails.personName) {
+            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'What is your name?' });
+        } else {
+            return await stepContext.next(bookingDetails.personName);
+        }
+    }
 
     /**
      * If a destination city has not been provided, prompt for one.
      */
     async destinationStep(stepContext) {
         const bookingDetails = stepContext.options;
+        bookingDetails.personName = stepContext.result;
 
         if (!bookingDetails.destination) {
             return await stepContext.prompt(TEXT_PROMPT, { prompt: 'To what city would you like to travel?' });
