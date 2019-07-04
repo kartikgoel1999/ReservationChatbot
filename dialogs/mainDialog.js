@@ -6,6 +6,8 @@ const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialo
 const { BookingDialog } = require('./bookingDialog');
 const { MeetAndGreetDialog } = require('./meetAndGreetDialog');
 const { LuisHelper } = require('./luisHelper');
+const { CardFactory } = require('botbuilder-core');
+const WelcomeCard = require('../bots/resources/welcomeCard.json');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 const BOOKING_DIALOG = 'bookingDialog';
@@ -64,8 +66,11 @@ class MainDialog extends ComponentDialog {
             return await stepContext.next();
         }
 
-        return await stepContext.next();
+        // return await stepContext.next();
         // return await stepContext.prompt('TextPrompt', { prompt: ' ' });
+        const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
+        await stepContext.context.sendActivity({ attachments: [welcomeCard] });
+        return await stepContext.next();
     }
 
     /**
